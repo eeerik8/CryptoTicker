@@ -1,2 +1,2 @@
-# MinimalistCrypto
-Minimalist live crypto ticker
+# CryptoTicker
+Live ticker implemented in python using the coinmarketcap API, and PyQt5.
