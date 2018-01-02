@@ -8,10 +8,10 @@
 from tickerdata import currency
 from PyQt5 import QtCore, QtGui, QtWidgets\
 
-
+count=0
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName("MinimalistCryptoTracker v0.1")
         MainWindow.resize(790, 450)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -118,6 +118,22 @@ class Ui_MainWindow(object):
         item = self.tableWidget.horizontalHeaderItem(5)
         item.setText(_translate("MainWindow", "% Change (24H)"))
 
+        #functions for colorizing cell based on performance
+        def colourizer_1h(x,y,data):
+            if(float(data.percent_change_1h) > 0.00000):
+                self.tableWidget.item(x, y).setBackground(QtGui.QColor(163, 255, 145))#paint green
+            elif float(data.percent_change_1h) == 0.00000:
+                return
+            else:
+                self.tableWidget.item(x, y).setBackground(QtGui.QColor(255, 104, 104))#paint red
+        def colourizer_24h(x,y,data):
+            if(float(data.percent_change_24h) > 0.00000):
+                self.tableWidget.item(x, y).setBackground(QtGui.QColor(163, 255, 145))#paint green
+            elif float(data.percent_change_24h) == 0.00000:
+                return
+            else:
+                self.tableWidget.item(x, y).setBackground(QtGui.QColor(255, 104, 104))#paint red
+
         #namecolumn
         for x in range(10):
             item = self.tableWidget.item(x, 1)
@@ -128,16 +144,18 @@ class Ui_MainWindow(object):
         for x in range(10):
             item = self.tableWidget.item(x, 2)
             item.setText(_translate("MainWindow", currency[x].symbol))
+            self.tableWidget.item(x, 2).setBackground(QtGui.QColor(226, 250, 255))#paint blue
         for x in range(10):
             item = self.tableWidget.item(x, 3)
             item.setText(_translate("MainWindow", "$"+currency[x].price_usd))
         for x in range(10):
             item = self.tableWidget.item(x, 4)
             item.setText(_translate("MainWindow", currency[x].percent_change_1h))
+            colourizer_1h(x,4,currency[x])
         for x in range(10):
             item = self.tableWidget.item(x, 5)
             item.setText(_translate("MainWindow", currency[x].percent_change_24h))
-
+            colourizer_24h(x,5,currency[x])
 
         self.menuTicker.setTitle(_translate("MainWindow", "Ticker"))
 if __name__ == "__main__":
@@ -147,4 +165,18 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(w)
     w.show()
+    def update_label():
+        from tickerdata import refresh
+        currency = refresh()
+        for x in range(10):
+            ui.tableWidget.item(x, 3).setText('$' + currency[x].price_usd)
+        for x in range(10):
+            ui.tableWidget.item(x, 4).setText(currency[x].percent_change_1h)
+        for x in range(10):
+            ui.tableWidget.item(x, 5).setText(currency[x].percent_change_24h)
+
+    timer = QtCore.QTimer()
+    timer.timeout.connect(update_label)
+    timer.start(17000)  # every 10,000 milliseconds
+
     sys.exit(app.exec_())
