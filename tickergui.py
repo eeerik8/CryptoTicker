@@ -5,9 +5,10 @@
 # Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
-from tickerdata import currency
+from tickerdata import refresh
 from PyQt5 import QtCore, QtGui, QtWidgets\
 
+currency = refresh()
 count=0
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

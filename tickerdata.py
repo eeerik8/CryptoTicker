@@ -18,16 +18,6 @@ class Crypto(object):
 		rstring = self.rank + '. ' + self.name + ' (' + self.symbol + ') ' + self.price_usd + ' ' + self.percent_change_1h + ' ' + self.percent_change_24h + '\n'
 		return rstring
 
-page  =requests.get("https://api.coinmarketcap.com/v1/ticker/")
-#fetch json file, read, and then load.
-#note that only the top 10 cryptocurrencies are going to be shown.
-loaded_json_list = page.json()
-currency =[]
-for x in range(10):
-	current = loaded_json_list[x]
-	crypto_obj = Crypto(current["name"], current["symbol"], current["price_usd"], current["rank"], current["percent_change_1h"], current["percent_change_24h"])
-	currency.append(crypto_obj)
-
 def refresh():
 	page  =requests.get("https://api.coinmarketcap.com/v1/ticker/")
 	loaded_json_list = page.json()
