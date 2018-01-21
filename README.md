@@ -6,4 +6,4 @@ Dependencies: Requests, PyQt5, JSON
 
 Screenshot:
 
-![Alt Text] (/examples/tickergui.PNG "Ticker")
+![alt text] (/examples/tickergui.PNG "Ticker")
