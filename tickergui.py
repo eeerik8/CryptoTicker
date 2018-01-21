@@ -123,17 +123,17 @@ class Ui_MainWindow(object):
         def colourizer_1h(x,y,data):
             if(float(data.percent_change_1h) > 0.00000):
                 self.tableWidget.item(x, y).setBackground(QtGui.QColor(163, 255, 145))#paint green
-            elif float(data.percent_change_1h) == 0.00000:
-                return
-            else:
+            elif(float(data.percent_change_1h) < 0.00000):
                 self.tableWidget.item(x, y).setBackground(QtGui.QColor(255, 104, 104))#paint red
+            else:
+                return
         def colourizer_24h(x,y,data):
             if(float(data.percent_change_24h) > 0.00000):
                 self.tableWidget.item(x, y).setBackground(QtGui.QColor(163, 255, 145))#paint green
-            elif float(data.percent_change_24h) == 0.00000:
-                return
-            else:
+            elif (float(data.percent_change_24h) < 0.00000):
                 self.tableWidget.item(x, y).setBackground(QtGui.QColor(255, 104, 104))#paint red
+            else:
+                return
 
         #namecolumn
         for x in range(10):
